@@ -1,0 +1,10 @@
+- name: Instalar o Kibana
+  dnf:
+    name: kibana
+    state: present
+
+- name: Enable e start do Kibana
+  systemd:
+    name: kibana
+    enabled: yes
+    state: started

@@ -1,0 +1,10 @@
+- name: Instalar o Logstash
+  dnf:
+    name: logstash
+    state: present
+
+- name: Enable e start do Logstash
+  systemd:
+    name: logstash
+    enabled: yes
+    state: started

@@ -1,0 +1,34 @@
+- name: Instalar as dependencias
+  dnf:
+    name:
+      - java-17-openjdk
+    state: present
+
+- name: Importar chave GPG
+  rpm_key:
+    key: https://artifacts.elastic.co/GPG-KEY-elasticsearch
+    state: present
+
+- name: Add o repo do Elasticsearch
+  copy:
+    dest: /etc/yum.repos.d/elasticsearch.repo
+    content: |
+      [elasticsearch]
+      name=Elasticsearch repository for 8.x packages
+      baseurl=https://artifacts.elastic.co/packages/8.x/yum
+      gpgcheck=1
+      gpgkey=https://artifacts.elastic.co/GPG-KEY-elasticsearch
+      enabled=1
+      autorefresh=1
+      type=rpm-md
+
+- name: Instalar o Elasticsearch
+  dnf:
+    name: elasticsearch
+    state: present
+
+- name: Enable e start do Elasticsearch
+  systemd:
+    name: elasticsearch
+    enabled: yes
+    state: started
